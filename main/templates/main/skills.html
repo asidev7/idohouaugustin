@@ -1,0 +1,29 @@
+{% extends "main/base.html" %}
+
+{% load static %}
+
+{% block main %}
+<!-- Contenu principal -->
+<div class="content content-wrapper container mt-5">
+    <h1 class="mb-4">Mes Compétences</h1>
+    <div class="row">
+        {% for skill in skills %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="{{ skill.icon }} fa-3x mb-3"></i> <!-- Icône FontAwesome -->
+                    <h3 class="card-title">{{ skill.name }}</h3>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: {{ skill.proficiency }}%;" aria-valuenow="{{ skill.proficiency }}" aria-valuemin="0" aria-valuemax="100">{{ skill.proficiency }}%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p class="text-center">Aucune compétence à afficher.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

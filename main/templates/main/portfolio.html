@@ -1,0 +1,33 @@
+{% extends "main/base.html" %}
+
+{% load static %}
+
+{% block main %}
+<!-- Contenu principal -->
+<div class="content content-wrapper container">
+    <div class="row">
+        {% for project in projects %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ project.title }}</h5>
+                    <p class="card-text">{{ project.description|truncatewords:20 }}</p>
+                    <div class="skills mb-2">
+                        <strong>Compétences utilisées:</strong>
+                        <ul class="list-inline">
+                            {% for skill in project.skills_used.all %}
+                            <li class="list-inline-item badge badge-primary">{{ skill.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% if project.url %}
+                    <a href="{{ project.url }}" class="btn btn-primary" target="_blank">Voir le projet</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
