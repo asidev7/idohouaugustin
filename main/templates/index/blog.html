@@ -1,0 +1,53 @@
+{% extends 'index/base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+    <div class="main-wrapper">
+        <section class="cta-section theme-bg-light py-5">
+            <div class="container text-center">
+                <h2 class="heading">Un Blog Sur le Développement web et la Vie</h2>
+                <div class="intro">Bienvenue sur mon blog. Abonnez-vous pour recevoir les derniers articles directement dans votre boîte de réception.</div>
+				<form class="signup-form form-inline justify-content-center pt-3" method="post">
+					{% csrf_token %}
+					<div class="form-group">
+						{{ form.email }}
+					</div>
+					<button type="submit" class="btn btn-primary">S'abonner</button>
+				</form>
+
+
+            </div><!--//container-->
+        </section>
+        <section class="blog-list px-3 py-5 p-md-5">
+            <div class="container">
+                <div class="row">
+                    {% for article in articles %}
+                    <div class="col-md-4 mb-3">
+                        <div class="card blog-post-card">
+                            <img class="card-img-top" src="{{ article.image.url }}" alt="image">
+                            <div class="card-body">
+                                <h5 class="card-title"><a class="theme-link" href="{% url 'article' article.slug %}">{{ article.title }}</a></h5>
+                                <p class="card-text">{{ article.description|slice:":150" }}...</p>
+                                <p class="mb-0"><a class="more-link" href="{% url 'article' article.slug %}">Lire la suite &rarr;</a></p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Publié {{ article.created_at|naturaltime }}</small>
+                            </div>
+                        </div><!--//card-->
+                    </div><!--//col-->
+                    {% endfor %}
+                </div><!--//row-->
+                
+                <nav class="blog-nav nav nav-justified my-5">
+                    <a class="nav-link-prev nav-item nav-link d-none rounded-left" href="#">Précédent<i class="arrow-prev fas fa-long-arrow-alt-left"></i></a>
+                    <a class="nav-link-next nav-item nav-link rounded" href="#">Suivant<i class="arrow-next fas fa-long-arrow-alt-right"></i></a>
+                </nav>
+                
+            </div>
+        </section>
+        
+        {% include 'index/footer.html' %}
+    </div><!--//main-wrapper-->
+{% endblock %}

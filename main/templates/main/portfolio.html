@@ -30,4 +30,17 @@
         {% endfor %}
     </div>
 </div>
+
+<script>
+
+    var $grid = $('.isotope').isotope({
+        itemSelector: '.isotope-item',
+        layoutMode: 'fitRows'
+      });
+      
+      $('#filters').on('click', 'li', function() {
+        var filterValue = $(this).attr('data-filter');
+        $grid.isotope({ filter: filterValue });
+      });
+    </script>      
 {% endblock %}

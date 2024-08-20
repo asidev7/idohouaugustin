@@ -1,0 +1,70 @@
+{% extends 'index/base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+    <div class="main-wrapper">
+        
+        <article class="blog-post px-3 py-5 p-md-5">
+            <div class="container single-col-max-width">
+                <header class="blog-post-header">
+                    <h2 class="title mb-2">{{ post.title }}</h2>
+                    <div class="meta mb-3">
+						<span class="date">Publié {{ post.created_at|naturaltime }}</span>
+						<span class="time">
+							{% if post.get_reading_time %}
+								{{ post.get_reading_time }} minute{% if post.get_reading_time > 1 %}s{% endif %} de lecture
+							{% else %}
+								Temps de lecture inconnu
+							{% endif %}
+						</span>
+					</div>
+                </header>
+                
+                <div class="blog-post-body">
+                    {% if post.image %}
+                    <figure class="blog-banner">
+                        <img class="img-fluid" src="{{ post.image.url }}" alt="{{ post.title }}">
+                        <figcaption class="mt-2 text-center image-caption">Image Credit: <a href="{{post.credit}}" target="_blank">{{post.credit}}</a></figcaption>
+                    </figure>
+                    {% endif %}
+                    
+                    {{ post.content|safe }}
+                </div>
+                
+                <!-- Navigation links to previous and next blog posts -->
+                <nav class="blog-nav nav nav-justified my-5">
+                  {% if post.get_previous_by_created_at %}
+                  <a class="nav-link-prev nav-item nav-link rounded-left" href="{% url 'article' post.get_previous_by_created_at.slug %}">Previous<i class="arrow-prev fas fa-long-arrow-alt-left"></i></a>
+                  {% endif %}
+                  {% if post.get_next_by_created_at %}
+                  <a class="nav-link-next nav-item nav-link rounded-right" href="{% url 'article' post.get_next_by_created_at.slug %}">Next<i class="arrow-next fas fa-long-arrow-alt-right"></i></a>
+                  {% endif %}
+                </nav>
+                
+                <!-- Comments section -->
+                <div class="blog-comments-section">
+                    <div id="disqus_thread"></div>
+                    <script>
+                        (function() {  
+                            var d = document, s = d.createElement('script');
+                            s.src = 'https://3wmthemes.disqus.com/embed.js';
+                            s.setAttribute('data-timestamp', +new Date());
+                            (d.head || d.body).appendChild(s);
+                        })();
+                    </script>
+                    <noscript>
+                        Please enable JavaScript to view the 
+                        <a href="https://disqus.com/?ref_noscript" rel="nofollow">
+                            comments powered by Disqus.
+                        </a>
+                    </noscript>
+                </div><!--//blog-comments-section-->
+                
+            </div><!--//container-->
+        </article>
+
+    </div><!--//main-wrapper-->
+    
+{% endblock %}

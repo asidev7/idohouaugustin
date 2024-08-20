@@ -1,5 +1,5 @@
 from django.urls import path,include
-from main.views import Portfolio, about, contact, details_blog, home,blog, services, skills
+from main.views import Portfolio, about, contact, details_blog, home,blog, services
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -8,9 +8,9 @@ path('',home),
 path('about',about),
 path('Portfolio',Portfolio),
 path('article',blog,name="blog"),
-path('skills',skills),
+path('services',services),
 path('article/<slug:slug>',details_blog,name="article"),
-path('contact',contact),
+path('contact',contact,name="contact"),
 path('services',services),
 ]
 

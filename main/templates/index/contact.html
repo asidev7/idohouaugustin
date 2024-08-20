@@ -1,0 +1,58 @@
+{% extends 'index/base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="main-wrapper">
+    <section class="cta-section theme-bg-light py-5">
+        <div class="container text-center single-col-max-width">
+            <h2 class="heading">Contact</h2>
+            <div class="intro">
+                <p>Intéressé par mes services ou simplement envie de dire bonjour ? Vous pouvez remplir le formulaire de contact ci-dessous ou m'envoyer un email à <a href="mailto:{{site_info.contact_email}}">{{site_info.contact_email}}</a></p>
+                <p>Vous souhaitez vous connecter ? Suivez-moi sur les réseaux sociaux ci-dessous.</p>
+                <ul class="social-list list-inline py-2 mx-auto">
+					{% if site_info %}
+						{% if site_info.twitter_link %}
+							<li class="list-inline-item"><a href="{{ site_info.twitter_link }}"><i class="fab fa-twitter fa-fw"></i></a></li>
+						{% endif %}
+						{% if site_info.linkedin_link %}
+							<li class="list-inline-item"><a href="{{ site_info.linkedin_link }}"><i class="fab fa-linkedin-in fa-fw"></i></a></li>
+						{% endif %}
+						{% if site_info.facebook_link %}
+							<li class="list-inline-item"><a href="{{ site_info.facebook_link }}"><i class="fab fa-facebook fa-fw"></i></a></li>
+						{% endif %}
+						{% if site_info.instagram_link %}
+							<li class="list-inline-item"><a href="{{ site_info.instagram_link }}"><i class="fab fa-instagram fa-fw"></i></a></li>
+						{% endif %}
+						{% if site_info.lien_youtube %}
+							<li class="list-inline-item"><a href="{{ site_info.lien_youtube }}"><i class="fab fa-youtube fa-fw"></i></a></li>
+						{% endif %}
+						<!-- Add other social links if needed -->
+					{% else %}
+						<!-- Handle the case where no site information is available -->
+						<li class="list-inline-item"><a href="#"><i class="fab fa-twitter fa-fw"></i></a></li>
+						<!-- Add other default icons or messages if needed -->
+					{% endif %}
+				</ul>
+            </div><!--//intro-->
+        </div><!--//container-->
+    </section>
+    
+    <section class="contact-section px-3 py-5 p-md-5">
+        <div class="container">
+            <form id="contact-form" class="contact-form col-lg-8 mx-lg-auto" method="post" action="{% url 'contact' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="form-group col-12">
+                    <button type="submit" class="btn btn-block btn-primary py-2">Envoyer</button>
+                </div>
+            </form>
+        </div><!--//container-->
+    </section>
+    
+  {% include 'index/footer.html' %}
+</div><!--//main-wrapper-->
+
+{% endblock %}

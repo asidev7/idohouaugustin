@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Contact, Service, Skill, Project, Tag, BlogPost, SiteInformation
+from .models import Contact, PricingPlan, Service, Skill, Project, Tag, BlogPost, SiteInformation, Testimonial
+from main import models
 
 @admin.register(Skill)
 class SkillAdmin(admin.ModelAdmin):
@@ -17,7 +18,7 @@ class ProjectAdmin(admin.ModelAdmin):
     filter_horizontal = ('skills_used',)
     fieldsets = (
         (None, {
-            'fields': ('title', 'slug', 'description', 'image', 'skills_used', 'url')
+            'fields': ('title', 'slug', 'description', 'project_type','image', 'skills_used', 'url')
         }),
         ('Dates', {
             'fields': ('created_at', 'updated_at'),
@@ -40,18 +41,32 @@ class BlogPostAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
 
 
-@admin.register(Service)
-class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('title', 'icon_class', 'description')
-    search_fields = ('title', 'description')
-    list_filter = ('title',)
-    ordering = ('title',)
+class TestimonialAdmin(admin.ModelAdmin):
+    list_display = ('name', 'info', 'quote', 'profile_image')
+    search_fields = ('name', 'info', 'quote')
+    list_filter = ('info',)
+
+    # Optional: Add image preview in the admin list view
+    def profile_image_thumbnail(self, obj):
+        if obj.profile_image:
+            return '<img src="%s" width="50" height="50" />' % obj.profile_image.url
+        else:
+            return 'No image'
+    profile_image_thumbnail.allow_tags = True
+    profile_image_thumbnail.short_description = 'Profile Image'
+
+    # Optionally, override form layout if needed
     fieldsets = (
         (None, {
-            'fields': ('title', 'description', 'icon_class')
+            'fields': ('quote', 'name', 'info', 'profile_image')
         }),
     )
     
+    
+
+admin.site.register(Testimonial, TestimonialAdmin)
+
+
 admin.site.register(Contact)
 @admin.register(SiteInformation)
 class SiteInformationAdmin(admin.ModelAdmin):
@@ -75,3 +90,20 @@ class SiteInformationAdmin(admin.ModelAdmin):
             'classes': ('collapse',),
         }),
     )
+
+
+@admin.register(Service)
+class ServiceAdmin(admin.ModelAdmin):
+    list_display = ('name', 'price', 'duration')
+    search_fields = ('name', 'description')
+    list_filter = ('price', 'duration')
+    ordering = ('name',)
+    readonly_fields = ('features',)  # Si vous voulez que le champ 'features' soit en lecture seule
+
+@admin.register(PricingPlan)
+class PricingPlanAdmin(admin.ModelAdmin):
+    list_display = ('plan_type', 'price', 'description')
+    search_fields = ('description', 'features')
+    list_filter = ('plan_type',)
+    ordering = ('plan_type',)
+    readonly_fields = ('features',)  

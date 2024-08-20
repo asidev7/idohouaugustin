@@ -1,0 +1,109 @@
+{% extends 'index/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="main-wrapper">
+    <!-- Section d'appel à l'action -->
+    <section class="cta-section theme-bg-light py-5">
+        <div class="container text-center single-col-max-width">
+            <h2 class="heading">Services & Tarification</h2>
+            <div class="intro">
+                <p>Fort de plus de 5 ans d'expérience dans le développement logiciel pour le web et les appareils mobiles, je suis spécialisé dans la création de solutions adaptées aux besoins spécifiques de chaque client. Découvrez mon <a href="/Portfolio" target="_blank">portefeuille de projets</a> et mon <a href="resume.html" target="_blank">CV en ligne</a> pour plus d'informations sur mes compétences et expériences.</p>
+                <p class="mb-0">Je propose actuellement des services de développement freelance. N'hésitez pas à me contacter pour obtenir un devis personnalisé pour votre projet. Je propose également des forfaits de services de développement avec des prix fixes.</p>
+            </div>
+        </div><!--//container-->
+    </section>
+    
+    <!-- Section des services -->
+    <section class="services-section py-5">
+        <div class="container">
+            <h3 class="text-center mb-4">Nos Services</h3>
+            <div class="row">
+                {% for service in services %}
+                    <div class="col-md-4">
+                        <div class="service-card">
+                            <h4 class="service-name">{{ service.name }}</h4>
+                            <p class="service-description">{{ service.description }}</p>
+                            <p class="service-price">Prix: €{{ service.price }}</p>
+                            <p class="service-duration">Durée: {{ service.duration }}</p>
+                            <p class="service-features">Fonctionnalités: {{ service.features }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div><!--//container-->
+    </section><!--//services-section-->
+
+    <!-- Section de tarification -->
+    <section class="pricing-section py-5">
+        <div class="container single-col-max-width">
+            <h3 class="text-center mb-4">Forfaits de Services</h3>
+            <div id="pricing-tabs" class="pricing-tabs d-block d-md-none mb-3">
+                {% for plan in pricing_plans %}
+                    <a href="#" class="pricing-tab{% if forloop.first %} active{% endif %} mb-2" data-target="pricing-{{ forloop.counter }}-data">{{ plan.get_plan_type_display }}</a>
+                {% endfor %}
+            </div><!--//pricing-mobile-tabs-->
+        
+            <table id="pricing-table" class="pricing-table table-bordered">
+                <thead>
+                    <tr class="border-0">
+                        <th scope="col" class="pricing-0-data theme-bg-light"></th>
+                        {% for plan in pricing_plans %}
+                            <th scope="col" class="pricing-package-title pricing-{{ forloop.counter }}-data{% if forloop.first %} active{% endif %}">{{ plan.get_plan_type_display }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="pricing-price-row">
+                        <th scope="row" class="pricing-0-data">Prix du forfait</th>
+                        {% for plan in pricing_plans %}
+                            <td class="pricing-{{ forloop.counter }}-data"><span class="price-number">€{{ plan.price }}</span></td>
+                        {% endfor %}
+                    </tr>
+                    
+                    <tr class="pricing-desc-row">
+                        <th scope="row" class="pricing-0-data">Détails</th>
+                        {% for plan in pricing_plans %}
+                            <td class="pricing-{{ forloop.counter }}-data"><span class="pricing-package-desc">{{ plan.description }}</span></td>
+                        {% endfor %}
+                    </tr>
+                    
+                    <tr class="pricing-feature-row">
+                        <th class="pricing-feature-row-name pricing-0-data" scope="row">Fonctionnalités</th>
+                        {% for plan in pricing_plans %}
+                            <td class="pricing-{{ forloop.counter }}-data">
+                                <ul>
+                                    {% for feature in plan.features %}
+                                        <li>{{ feature }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    
+                    <!-- Ajoutez d'autres lignes si nécessaire -->
+                </tbody>
+                <tfoot>
+                    <tr class="pricing-cta-row">
+                        <td class="pricing-0-data"></td>
+                        {% for plan in pricing_plans %}
+                            <td class="pricing-{{ forloop.counter }}-data">
+                                {% if forloop.last %}
+                                    <a class="btn btn-primary" href="#">Obtenir un devis</a>
+                                {% else %}
+                                    <a class="btn btn-primary" href="#">Réserver </a>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                </tfoot>
+            </table><!--//pricing-table-->
+            
+        </div><!--//container-->
+    </section><!--//pricing-section-->
+    
+    {% include 'index/footer.html' %}
+</div><!--//main-wrapper-->
+
+{% endblock %}

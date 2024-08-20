@@ -1,0 +1,47 @@
+{% extends 'index/base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+    <div class="main-wrapper">
+        <!-- Contenu principal -->
+
+        <section class="about-me-section p-3 p-lg-5 theme-bg-light">
+            <div class="container">
+                <div class="profile-teaser media flex-column flex-lg-row">
+                    
+                    <!-- Informations personnelles -->
+                    <div class="media-body">
+                        <h2 class="name font-weight-bold mb-1">{{ site_info.site_name }}</h2>
+                        <div class="tagline mb-3">{{ site_info.poste }}</div>
+                        <div class="bio mb-4">
+                            <p>Bonjour ! Je suis {{site_info.site_name}}, un développeur web full-stack passionné par la technologie et l'innovation. Depuis quatre ans, je me consacre pleinement au développement web après avoir obtenu mon baccalauréat en sciences informatiques.</p>
+                            
+                            <p>Mon parcours a débuté avec une forte fascination pour les systèmes informatiques et les technologies émergentes. J'ai eu l'opportunité de travailler sur divers projets de développement web qui m'ont permis de maîtriser à la fois le front-end et le back-end. Mes compétences en HTML, CSS, JavaScript, ainsi que dans les frameworks modernes comme React et Django, me permettent de créer des applications web dynamiques et efficaces.</p>
+
+                            <p>En tant qu'administrateur Linux, j'ai acquis une solide expérience dans la gestion et la sécurisation des systèmes serveur. Cette expertise est essentielle pour garantir la performance, la sécurité, et la disponibilité des applications web que je développe.</p>
+
+                            <p>La cybersécurité est une autre passion que je cultive avec enthousiasme. Je suis constamment à la recherche de nouvelles vulnérabilités et de solutions pour protéger les systèmes contre les menaces potentielles. Mon intérêt pour le hacking éthique et la sécurité informatique m'a amené à explorer divers aspects de la protection des données et des infrastructures.</p>
+
+                            <p>À travers mon travail, je vise à allier mes compétences techniques avec une approche créative pour résoudre des problèmes complexes. Mon objectif est de créer des solutions innovantes qui non seulement répondent aux besoins des utilisateurs mais aussi anticipent les défis futurs.</p>
+
+                            <p>En dehors du développement web et de l'administration des systèmes, j'aime partager mes connaissances avec la communauté tech. J'écris des articles de blog, je participe à des conférences, et je suis toujours prêt à collaborer sur des projets passionnants.</p>
+                        </div><!--//bio-->
+                        <div class="mb-4">
+                            <a class="btn btn-primary mr-2 mb-3" href="/Portfolio"><i class="fas fa-arrow-alt-circle-right mr-2"></i><span class="d-none d-md-inline">Voir plus</span> Portfolio</a>
+                            <a class="btn btn-secondary mb-3" href="{{ site_info.cv_url }}"><i class="fas fa-file-alt mr-2"></i><span class="d-none d-md-inline">Télécharger</span></a>
+                        </div>
+                    </div><!--//media-body-->
+
+                    <!-- Image de profil (si nécessaire) -->
+                    {% if site_info.profile_image %}
+                        <img class="profile-image mb-3 mb-lg-0 ml-lg-5 mr-md-0" src="{{ site_info.profile_image.url }}" alt="Profile Image">
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+    </div><!--//main-wrapper-->
+
+{% endblock %}

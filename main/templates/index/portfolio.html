@@ -1,0 +1,76 @@
+{% extends 'index/base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+    <div class="main-wrapper">
+        <section class="cta-section theme-bg-light py-5">
+            <div class="container text-center single-col-max-width">
+                <h2 class="heading">Portfolio</h2>
+                <div class="intro">
+                    <p>Bienvenue sur mon portfolio en ligne. En tant que développeur web passionné, j'ai travaillé sur une variété de projets allant de la création de sites vitrine à des applications web complexes. Je suis actuellement disponible pour des missions freelance. Si vous avez besoin d'un développeur compétent pour votre prochain projet, n'hésitez pas à me contacter !</p>
+                </div>
+                <a class="btn btn-primary" href="https://wa.me/{{site_info.phone_number}}" target="_blank"><i class="fas fa-paper-plane mr-2"></i>Me contacter</a>
+            </div><!--//container-->
+        </section>
+        <section class="projects-list px-3 py-5 p-md-5">
+            <div class="container">
+                <div class="text-center">
+                    <ul id="filters" class="filters mb-5 mx-auto pl-0">
+                        <li class="type active mb-3 mb-lg-0" data-filter="*">Tous</li>
+                        <li class="type mb-3 mb-lg-0" data-filter=".webapp">Web App</li>
+                        <li class="type mb-3 mb-lg-0" data-filter=".mobileapp">Application Mobile</li>
+                        <li class="type mb-3 mb-lg-0" data-filter=".frontend">Frontend</li>
+                        <li class="type mb-3 mb-lg-0" data-filter=".backend">Backend</li>
+                    </ul><!--//filters-->
+                </div>
+
+                <div class="project-cards row isotope">
+                    {% for project in projects %}
+                    <div class="isotope-item col-md-6 mb-5 {% for skill in project.skills_used.all %}{{ skill.name|lower }} {% endfor %}">
+                        <div class="card project-card">
+                            <div class="row no-gutters">
+                                <div class="col-lg-4 card-img-holder">
+                                    <img src="{{ project.image.url }}" class="card-img" alt="{{ project.title }}">
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><a href="" class="theme-link">{{ project.title }}</a></h5>
+                                        <p class="card-text">{{ project.description|slice:":150" }}...</p>
+                                        <p class="card-text"><small class="text-muted">Client : {{ project.client_name|default:"Non spécifié" }}</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="link-mask">
+                                <a class="link-mask-link" href=""></a>
+                                <div class="link-mask-text">
+                                    <a class="btn btn-secondary" href="">
+                                        <i class="fas fa-eye mr-2"></i>Voir l'étude de cas
+                                    </a>
+                                </div>
+                            </div><!--//link-mask-->
+                        </div><!--//card-->
+                    </div><!--//col-->
+                    {% endfor %}
+                </div><!--//row-->
+            </div>
+        </section>
+
+        {% include 'index/footer.html' %}
+    </div><!--//main-wrapper-->
+
+
+<script>
+
+    var $grid = $('.isotope').isotope({
+        itemSelector: '.isotope-item',
+        layoutMode: 'fitRows'
+      });
+      
+      $('#filters').on('click', 'li', function() {
+        var filterValue = $(this).attr('data-filter');
+        $grid.isotope({ filter: filterValue });
+      });
+    </script>   
+{% endblock %}
